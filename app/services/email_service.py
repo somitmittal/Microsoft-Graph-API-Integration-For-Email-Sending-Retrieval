@@ -116,4 +116,4 @@ class EmailService:
                 raise Exception(f"Failed to retrieve emails: {response.status_code} - {response.text}")
         except Exception as e:
             logger.error(f"Error retrieving emails: {str(e)}")
-            raise e
+            raise

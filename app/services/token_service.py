@@ -1,24 +1,27 @@
 import msal
 import logging
 from datetime import datetime, timedelta
+
 from config import settings
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-class TokenService:
-    _access_token = None
-    _token_expiration = None
+_access_token = None
+_token_expiration = None
 
+class TokenService:
+    @staticmethod
     def get_access_token():
         """
         Get Microsoft Graph API access token using MSAL
         """
-
+        global _access_token
+        global _token_expiration
         try:
             # Check if the token is still valid
-            if datetime.utcnow() < _token_expiration:
+            if _access_token and _token_expiration and datetime.utcnow() < _token_expiration:
                 return _access_token
 
             # Create a confidential client application

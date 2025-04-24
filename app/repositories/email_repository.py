@@ -52,6 +52,6 @@ class EmailRepository:
             self.collection.insert_many(email_docs)
         except Exception as e:
             logger.error(f"Failed to store emails: {e}")
-            raise e
+            raise
         return stored_emails
         
