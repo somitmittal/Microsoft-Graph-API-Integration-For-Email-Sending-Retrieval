@@ -39,7 +39,7 @@ This project implements a Python-based service that integrates with Microsoft Gr
 ### Prerequisites
 
 - Python 3.8+
-- MongoDB (local installation or cloud instance)
+- MongoDB (local installation or cloud instance) You can use [MongoDB Compass](https://www.mongodb.com/try/download/compass)
 - Microsoft Outlook account
 - Microsoft Entra ID app registration
 
@@ -120,7 +120,7 @@ Request body:
 POST /api/email/retrieve
 ```
 
-## How I Used AI Coding Tools
+<!-- ## How I Used AI Coding Tools
 
 During the development of this project, I utilized several AI coding tools to enhance productivity and code quality:
 
@@ -134,7 +134,7 @@ During the development of this project, I utilized several AI coding tools to en
 
 3. **Cursor AI**: Used for refactoring code and suggesting improvements to error handling patterns.
 
-These tools significantly accelerated development while maintaining code quality. All AI-generated code was reviewed and modified as needed to ensure it met project requirements and followed best practices.
+These tools significantly accelerated development while maintaining code quality. All AI-generated code was reviewed and modified as needed to ensure it met project requirements and followed best practices. -->
 
 ## Testing
 

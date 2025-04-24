@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     MS_SCOPE: list = os.getenv("MS_SCOPE", "https://graph.microsoft.com/.default").split(',')
     
     # Email retrieval settings
-    EMAIL_RETRIEVAL_INTERVAL: int = int(os.getenv("EMAIL_RETRIEVAL_INTERVAL", "300"))  # in seconds
+    EMAIL_RETRIEVAL_INTERVAL: int = int(os.getenv("EMAIL_RETRIEVAL_INTERVAL", "24*60*60"))  # in seconds
 
     class Config:
         env_file = ".env"
