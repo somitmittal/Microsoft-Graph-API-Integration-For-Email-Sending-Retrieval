@@ -3,7 +3,7 @@ import logging
 from datetime import datetime, timedelta
 from app.repositories.email_repository import EmailRepository
 from app.models.email import EmailSendRequest
-from token_service import TokenService
+from app.services.token_service import TokenService
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

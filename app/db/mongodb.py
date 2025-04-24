@@ -30,7 +30,7 @@ def get_database():
     Get MongoDB database instance
     """
     client = get_mongo_client()
-    return client[settings.MONGODB_DB]
+    return client[settings.MONGODB_COLLECTION]
 
 def get_email_collection():
     """

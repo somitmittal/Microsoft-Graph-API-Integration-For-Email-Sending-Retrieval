@@ -1,9 +1,13 @@
-from models import EmailDB, EmailResponse
+import logging
 
+from app.db.mongodb import get_email_collection
+from app.models.email import EmailDB, EmailResponse
+
+logger = logging.getLogger(__name__)
 class EmailRepository:
-    def __init__(self, db):
+    def __init__(self):
         # Set MongoDB collection
-        self.collection = db["emails"]
+        self.collection = get_email_collection()
 
     def store_emails(self, emails_data):
         # Process and store emails
