@@ -7,9 +7,9 @@ class EmailSendRequest(BaseModel):
     to_recipients: List[EmailStr]
     subject: str
     body: str
-    cc_recipients: Optional[List[EmailStr]] = Field(default=[])
-    bcc_recipients: Optional[List[EmailStr]] = Field(default=[])
-    is_html: Optional[bool] = Field(default=False)
+    cc_recipients: Optional[List[EmailStr]] = Field(default_factory=list)
+    bcc_recipients: Optional[List[EmailStr]] = Field(default_factory=list)
+    is_html: Optional[bool] = False
 
 class EmailResponse(BaseModel):
     """Model for email response data"""
@@ -26,8 +26,8 @@ class EmailDB(BaseModel):
     subject: str
     sender: str
     recipients: List[str]
-    cc_recipients: List[str] = Field(default=[])
-    bcc_recipients: List[str] = Field(default=[])
+    cc_recipients: List[str] = Field(default_factory=list)
+    bcc_recipients: List[str] = Field(default_factory=list)
     body: str
     is_html: bool = False
     received_datetime: datetime
