@@ -1,0 +1,158 @@
+# Microsoft Graph API Integration for Email Sending and Retrieval
+
+This project implements a Python-based service that integrates with Microsoft Graph API to send emails and periodically retrieve new emails, storing them in a MongoDB database.
+
+## Features
+
+- Send emails via Microsoft Graph API
+- Automatically retrieve new emails from the past 24 hours
+- Store email data in MongoDB
+- Scheduled email retrieval without manual triggers
+
+## Project Structure
+
+```
+.
+├── README.md
+├── .env.example
+├── .gitignore
+├── requirements.txt
+├── app.py                  # Main application entry point
+├── config.py               # Configuration and environment variables
+├── scheduler.py            # Email retrieval scheduler
+└── app/
+    ├── __init__.py
+    ├── api/                # API endpoints
+    │   ├── __init__.py
+    │   └── routes.py       # API route definitions
+    ├── models/             # Database models
+    │   ├── __init__.py
+    │   └── email.py        # Email model definition
+    └── services/           # Business logic
+        ├── __init__.py
+        ├── graph_api.py    # Microsoft Graph API integration
+        └── email_service.py # Email operations
+```
+
+## Setup Instructions
+
+### Prerequisites
+
+- Python 3.8+
+- MongoDB (local installation or cloud instance)
+- Microsoft Outlook account
+- Microsoft Entra ID app registration
+
+### Microsoft Graph API Setup
+
+1. Create a free Outlook account if you don't have one
+2. Register an application in the Microsoft Entra ID portal:
+   - Go to [Azure Portal](https://portal.azure.com)
+   - Navigate to "Microsoft Entra ID" > "App registrations" > "New registration"
+   - Name your application
+   - Set the redirect URI to `http://localhost:5000/auth/callback`
+   - Grant the following API permissions:
+     - Mail.Read
+     - Mail.Send
+     - User.Read
+   - Create a client secret
+
+### Installation
+
+1. Clone the repository
+2. Create a virtual environment:
+   ```
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+3. Install dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
+4. Copy `.env.example` to `.env` and fill in your credentials:
+   ```
+   cp .env.example .env
+   ```
+
+### Environment Variables
+
+Create a `.env` file with the following variables:
+
+```
+MONGODB_URI=mongodb://localhost:27017/email_service
+CLIENT_ID=your_client_id
+CLIENT_SECRET=your_client_secret
+TENANT_ID=your_tenant_id
+USER_EMAIL=your_outlook_email
+SCHEDULE_INTERVAL=60  # Minutes between email retrievals
+```
+
+## Running the Application
+
+1. Start the application:
+   ```
+   python app.py
+   ```
+2. The API will be available at `http://localhost:5000`
+3. The email retrieval scheduler will start automatically
+
+## API Endpoints
+
+### Send Email
+
+```
+POST /api/email/send
+```
+
+Request body:
+```json
+{
+  "recipient": "recipient@example.com",
+  "subject": "Test Email",
+  "body": "This is a test email sent via Microsoft Graph API",
+  "attachments": []  // Optional
+}
+```
+
+### Manually Trigger Email Retrieval
+
+```
+POST /api/email/retrieve
+```
+
+## How I Used AI Coding Tools
+
+During the development of this project, I utilized several AI coding tools to enhance productivity and code quality:
+
+1. **GitHub Copilot**: Used for code completion, especially for repetitive patterns in API routes and MongoDB schema definitions.
+
+2. **ChatGPT**: Leveraged for:
+   - Generating the initial project structure
+   - Debugging authentication issues with Microsoft Graph API
+   - Creating documentation templates
+   - Optimizing MongoDB queries
+
+3. **Cursor AI**: Used for refactoring code and suggesting improvements to error handling patterns.
+
+These tools significantly accelerated development while maintaining code quality. All AI-generated code was reviewed and modified as needed to ensure it met project requirements and followed best practices.
+
+## Testing
+
+To test the application:
+
+1. Send an email using the `/api/email/send` endpoint
+2. Wait for the scheduled retrieval or manually trigger it with `/api/email/retrieve`
+3. Check the MongoDB database for stored emails
+
+## Security Considerations
+
+- All sensitive information is stored in environment variables
+- No credentials are committed to the repository
+- Token refresh is handled automatically
+
+## Future Improvements
+
+- Add unit and integration tests
+- Implement Docker containerization
+- Add support for email filtering and search
+- Improve error handling and retry mechanisms
