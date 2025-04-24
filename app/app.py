@@ -2,7 +2,7 @@ import uvicorn
 from fastapi import FastAPI
 from app.api.routes import router
 from config import settings
-from scheduler import start_scheduler
+from app.schedulers.scheduler import start_scheduler
 from app import init_mongo_connection
 
 app = FastAPI(title="Microsoft Graph API Integration")

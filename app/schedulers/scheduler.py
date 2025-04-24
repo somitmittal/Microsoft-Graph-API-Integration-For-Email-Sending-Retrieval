@@ -1,5 +1,5 @@
 from apscheduler.schedulers.background import BackgroundScheduler
-from app.services.email_service import retrieve_emails
+from app.services.email_service import EmailService
 from config import settings
 import logging
 
@@ -17,7 +17,7 @@ def start_scheduler():
     try:
         # Add job to retrieve emails at regular intervals
         scheduler.add_job(
-            retrieve_emails,
+            EmailService().retrieve_emails,
             'interval',
             seconds=settings.EMAIL_RETRIEVAL_INTERVAL,
             id='retrieve_emails_job',
