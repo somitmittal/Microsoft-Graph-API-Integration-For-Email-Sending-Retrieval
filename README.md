@@ -84,16 +84,16 @@ CLIENT_ID=your_client_id
 CLIENT_SECRET=your_client_secret
 TENANT_ID=your_tenant_id
 USER_EMAIL=your_outlook_email
-SCHEDULE_INTERVAL=60  # Minutes between email retrievals
+SCHEDULE_INTERVAL=60  # Seconds between email retrievals
 ```
 
 ## Running the Application
 
 1. Start the application:
    ```
-   python app.py
+   uvicorn main:app --reload
    ```
-2. The API will be available at `http://localhost:5000`
+2. The API will be available at `http://localhost:8000`
 3. The email retrieval scheduler will start automatically
 
 ## API Endpoints
@@ -140,19 +140,18 @@ These tools significantly accelerated development while maintaining code quality
 
 To test the application:
 
-1. Send an email using the `/api/email/send` endpoint
-2. Wait for the scheduled retrieval or manually trigger it with `/api/email/retrieve`
+1. Send an email using the `/email/send` endpoint
+2. Wait for the scheduled retrieval or manually trigger it with `/email/retrieve`
 3. Check the MongoDB database for stored emails
 
 ## Security Considerations
 
 - All sensitive information is stored in environment variables
 - No credentials are committed to the repository
-- Token refresh is handled automatically
+- Token cache and refresh is handled automatically
 
 ## Future Improvements
 
 - Add unit and integration tests
-- Implement Docker containerization
 - Add support for email filtering and search
 - Improve error handling and retry mechanisms
