@@ -17,21 +17,29 @@ This project implements a Python-based service that integrates with Microsoft Gr
 ├── .env.example
 ├── .gitignore
 ├── requirements.txt
-├── app.py                  # Main application entry point
+├── main.py                  # Main application entry point
 ├── config.py               # Configuration and environment variables
-├── scheduler.py            # Email retrieval scheduler
 └── app/
     ├── __init__.py
     ├── api/                # API endpoints
     │   ├── __init__.py
     │   └── routes.py       # API route definitions
+    ├── db/                 # Database Setup
+    │   ├── __init__.py
+    │   └── mongodb.py      # MongoDB Setup 
     ├── models/             # Database models
     │   ├── __init__.py
     │   └── email.py        # Email model definition
+    ├── repositories/       # Repositories
+    │   ├── __init__.py
+    │   └── email_repo.py   # Email Repository
+    ├── schedulers/         # Schedulers
+    │   ├── __init__.py
+    │   └── scheduler.py    # Email retrieval scheduler
     └── services/           # Business logic
         ├── __init__.py
-        ├── graph_api.py    # Microsoft Graph API integration
-        └── email_service.py # Email operations
+        ├── token_service.py # Microsoft Graph API token integration
+        └── email_service.py # Microsoft Graph API email operations
 ```
 
 ## Setup Instructions
