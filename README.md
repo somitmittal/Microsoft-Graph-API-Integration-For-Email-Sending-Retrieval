@@ -109,7 +109,7 @@ SCHEDULE_INTERVAL=60  # Seconds between email retrievals
 ### Send Email
 
 ```
-POST /api/email/send
+POST /email/send
 ```
 
 Request body:
@@ -125,7 +125,7 @@ Request body:
 ### Manually Trigger Email Retrieval
 
 ```
-POST /api/email/retrieve
+POST /email/retrieve
 ```
 
 <!-- ## How I Used AI Coding Tools
