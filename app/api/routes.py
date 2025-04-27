@@ -14,7 +14,6 @@ from app.services.token_service import token_cache
 from config import settings
 
 router = APIRouter()
-access_token = {}
 
 @router.post("/email/send", response_model=EmailResponse)
 async def send_email_route(email_request: EmailSendRequest):
@@ -47,16 +46,16 @@ async def login():
         "response_type": "code",
         "redirect_uri": settings.REDIRECT_URI,
         "response_mode": "query",
-        "scope": " ".join(settings.MS_SCOPE),
+        "scope": "openid offline_access https://graph.microsoft.com/user.read https://graph.microsoft.com/mail.read https://graph.microsoft.com/mail.send",
         "state": "12345"
     }
     auth_url = f"{settings.MS_AUTHORITY}/oauth2/v2.0/authorize?{urllib.parse.urlencode(params)}"
+    print(f"Auth URL: {auth_url}")
     return RedirectResponse(auth_url)
 
 # Step 2: Handle callback and exchange code for access token
 @router.get("/auth/callback")
 async def auth_callback(request: Request):
-    global access_token
     code = request.query_params.get("code")
     if not code:
         return HTMLResponse(content="Authorization code not found.", status_code=400)
@@ -82,7 +81,7 @@ async def auth_callback(request: Request):
 
     result = msal_app.acquire_token_by_authorization_code(
     code,  # The authorization code from the redirect
-    scopes=["Mail.Send"],
+    scopes=["Mail.Send", "Mail.Read"],
     redirect_uri=settings.REDIRECT_URI
     )
     access_token = result.get("access_token")

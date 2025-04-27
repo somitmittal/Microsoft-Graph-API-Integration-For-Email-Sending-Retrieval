@@ -6,6 +6,8 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
+from typing import List
+
 class Settings(BaseSettings):
     # Server settings
     HOST: str = os.getenv("HOST")
@@ -20,7 +22,7 @@ class Settings(BaseSettings):
     MS_CLIENT_SECRET: str = os.getenv("MS_CLIENT_SECRET")
     MS_TENANT_ID: str = os.getenv("MS_TENANT_ID")
     MS_AUTHORITY: str = os.getenv("MS_AUTHORITY")
-    MS_SCOPE: list = os.getenv("MS_SCOPE", "").split()
+    MS_SCOPE: str = os.getenv("MS_SCOPE", "")
     REDIRECT_URI: str = os.getenv("REDIRECT_URI")
 
     # Email retrieval settings
@@ -30,5 +32,9 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = ".env"
+
+    @property
+    def ms_scope_list(self) -> List[str]:
+        return [scope.strip() for scope in self.MS_SCOPE.split(",") if scope.strip()]
 
 settings = Settings()
