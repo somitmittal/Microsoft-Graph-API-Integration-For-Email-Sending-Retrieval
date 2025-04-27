@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     REDIRECT_URI: str = os.getenv("REDIRECT_URI")
 
     # Email retrieval settings
-    EMAIL_RETRIEVAL_INTERVAL: int = int(os.getenv("EMAIL_RETRIEVAL_INTERVAL", 24*60*60))  # in seconds
+    EMAIL_RETRIEVAL_INTERVAL: int = int(os.getenv("EMAIL_RETRIEVAL_INTERVAL"))
     SEND_EMAIL_URL: str = os.getenv("SEND_EMAIL_URL")
     RETRIEVE_EMAIL_URL: str = os.getenv("RETRIEVE_EMAIL_URL")
 
