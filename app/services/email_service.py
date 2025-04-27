@@ -1,9 +1,11 @@
-import requests
 import logging
 from datetime import datetime, timedelta
-from app.repositories.email_repository import EmailRepository
+
+import requests
+
 from app.models.email import EmailSendRequest
-from app.services.token_service import TokenService
+from app.repositories.email_repository import EmailRepository
+from app.services.token_service import token_cache
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -11,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 class EmailService:
     def __init__(self):
-        self.token_service = TokenService()
+        self.token_service = token_cache
         self.email_repository = EmailRepository()
 
     def send_email(self, email_request: EmailSendRequest):
@@ -20,11 +22,12 @@ class EmailService:
         """
         try:
             # Get access token
-            access_token = self.token_service.get_access_token()
-            
+            token = token_cache.get_access_token()
+            # logger.info(f"Using Access Token To Send Email: {token}")
+
             # Prepare headers
             headers = {
-                "Authorization": f"Bearer {access_token}",
+                "Authorization": f"Bearer {token}",
                 "Content-Type": "application/json"
             }
             
@@ -52,12 +55,12 @@ class EmailService:
                         }
                     } for recipient in email_request.bcc_recipients]
                 },
-                "saveToSentItems": "true"
+                "saveToSentItems": True
             }
             
             # Send the email
             response = requests.post(
-                "https://graph.microsoft.com/v1.0/me/sendMail",
+                url="https://graph.microsoft.com/v1.0/me/sendMail",
                 headers=headers,
                 json=email_body
             )
@@ -80,11 +83,11 @@ class EmailService:
         """
         try:
             # Get access token
-            access_token = self.token_service.get_access_token()
+            token = self.token_service.get_access_token()
             
             # Prepare headers
             headers = {
-                "Authorization": f"Bearer {access_token}",
+                "Authorization": f"Bearer {token}",
                 "Content-Type": "application/json"
             }
             

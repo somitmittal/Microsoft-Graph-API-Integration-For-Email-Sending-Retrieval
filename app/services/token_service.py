@@ -1,6 +1,5 @@
-import msal
 import logging
-from datetime import datetime, timedelta
+import requests
 
 from config import settings
 
@@ -8,40 +7,52 @@ from config import settings
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-_access_token = None
-_token_expiration = None
+from datetime import datetime, timedelta
+from typing import Optional
 
-class TokenService:
-    @staticmethod
-    def get_access_token():
-        """
-        Get Microsoft Graph API access token using MSAL
-        """
-        global _access_token
-        global _token_expiration
-        try:
-            # Check if the token is still valid
-            if _access_token and _token_expiration and datetime.utcnow() < _token_expiration:
-                return _access_token
+class TokenCache:
+    def __init__(self):
+        self.access_token: Optional[str] = None
+        self.refresh_token: Optional[str] = None
+        self.expiry: Optional[datetime] = None
 
-            # Create a confidential client application
-            app = msal.ConfidentialClientApplication(
-                client_id=settings.MS_CLIENT_ID,
-                client_credential=settings.MS_CLIENT_SECRET,
-                authority=settings.MS_AUTHORITY
+    def is_token_valid(self) -> bool:
+        return self.access_token is not None and self.expiry is not None and datetime.utcnow() < self.expiry
+
+    def set_tokens(self, access_token: str, expires_in: int, refresh_token: Optional[str] = None):
+        self.access_token = access_token
+        self.refresh_token = refresh_token
+        self.expiry = datetime.utcnow() + timedelta(seconds=expires_in)  # small buffer
+
+    def get_access_token(self):
+        if self.is_token_valid():
+            return self.access_token
+        if self.refresh_token:
+            # Refresh using the refresh token
+            token_url = f"{settings.MS_AUTHORITY}/oauth2/v2.0/token"
+            refresh_response = requests.post(
+                url=token_url,
+                data={
+                    "client_id": settings.MS_CLIENT_ID,
+                    "client_secret": settings.MS_CLIENT_SECRET,
+                    "refresh_token": self.refresh_token,
+                    "grant_type": "refresh_token",
+                    "scope": " ".join(settings.MS_SCOPE),
+                },
+                headers={"Content-Type": "application/x-www-form-urlencoded"}
             )
-            
-            # Acquire token for Microsoft Graph API
-            result = app.acquire_token_for_client(scopes=settings.MS_SCOPE)
-            
-            if "access_token" in result:
-                _access_token = result["access_token"]
-                # Set token expiration time (assuming token is valid for 1 hour)
-                _token_expiration = datetime.utcnow() + timedelta(seconds=result.get("expires_in", 3600))
-                return _access_token
+
+            if refresh_response.status_code == 200:
+                tokens = refresh_response.json()
+                self.set_tokens(
+                    access_token=tokens["access_token"],
+                    refresh_token=tokens.get("refresh_token"),
+                    expires_in=tokens["expires_in"]
+                )
             else:
-                logger.error(f"Failed to acquire token: {result.get('error')}, {result.get('error_description')}")
-                raise Exception(f"Failed to acquire token: {result.get('error')}")
-        except Exception as e:
-            logger.error(f"Error getting access token: {str(e)}")
-            raise e
+                raise Exception("Failed to refresh token. Re-authentication needed.")
+        else:
+            raise Exception("No refresh token available. Re-authentication needed.")
+
+# global token cache
+token_cache = TokenCache()
