@@ -8,12 +8,12 @@ load_dotenv()
 
 class Settings(BaseSettings):
     # Server settings
-    HOST: str = os.getenv("HOST", "0.0.0.0")
-    PORT: int = int(os.getenv("PORT", "8000"))
+    HOST: str = os.getenv("HOST")
+    PORT: int = int(os.getenv("PORT"))
 
     # MongoDB settings
-    MONGODB_URI: str = os.getenv("MONGODB_URI", "mongodb://localhost:27017")
-    MONGODB_COLLECTION: str = os.getenv("MONGODB_COLLECTION", "emails")
+    MONGODB_URI: str = os.getenv("MONGODB_URI")
+    MONGODB_COLLECTION: str = os.getenv("MONGODB_COLLECTION")
 
     # Microsoft Graph API settings
     MS_CLIENT_ID: str = os.getenv("MS_CLIENT_ID")
