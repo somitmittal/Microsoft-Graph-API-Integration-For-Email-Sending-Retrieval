@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     MS_CLIENT_SECRET: str = os.getenv("MS_CLIENT_SECRET")
     MS_TENANT_ID: str = os.getenv("MS_TENANT_ID")
     MS_AUTHORITY: str = os.getenv("MS_AUTHORITY")
-    MS_SCOPE: list = os.getenv("MS_SCOPE")
+    MS_SCOPE: list = os.getenv("MS_SCOPE", "").split()
     REDIRECT_URI: str = os.getenv("REDIRECT_URI")
 
     # Email retrieval settings

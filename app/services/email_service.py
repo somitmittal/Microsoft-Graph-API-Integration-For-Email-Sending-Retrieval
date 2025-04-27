@@ -1,4 +1,5 @@
 import logging
+import msal
 from datetime import datetime, timedelta
 
 import requests
@@ -24,7 +25,7 @@ class EmailService:
         try:
             # Get access token
             token = token_cache.get_access_token()
-            # logger.info(f"Using Access Token To Send Email: {token}")
+            logger.info(f"Using Access Token To Send Email: {token}")
 
             # Prepare headers
             headers = {
