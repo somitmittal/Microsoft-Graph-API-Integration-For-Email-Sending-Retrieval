@@ -6,6 +6,7 @@ import requests
 from app.models.email import EmailSendRequest
 from app.repositories.email_repository import EmailRepository
 from app.services.token_service import token_cache
+from config import settings
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -60,7 +61,7 @@ class EmailService:
             
             # Send the email
             response = requests.post(
-                url="https://graph.microsoft.com/v1.0/me/sendMail",
+                url=settings.SEND_EMAIL_URL,
                 headers=headers,
                 json=email_body
             )
@@ -104,7 +105,7 @@ class EmailService:
             
             # Get emails
             response = requests.get(
-                "https://graph.microsoft.com/v1.0/me/messages",
+                settings.RETRIEVE_EMAIL_URL,
                 headers=headers,
                 params=params
             )
