@@ -37,7 +37,7 @@ class EmailRepository:
                 is_html=is_html,
                 received_datetime=received_datetime
             )
-            email_docs.append(email_doc)
+            email_docs.append(email_doc.dict)
 
             # Add to response
             stored_emails.append(EmailResponse(
