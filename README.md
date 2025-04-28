@@ -173,4 +173,6 @@ PYTHONPATH=$pwd/pytest tests/unit/
 ```
 
 ## High Level Design
-![High Level Design](Check this file: high_level_diagram.txt)
+```
+Check this file: high_level_diagram.txt
+```
