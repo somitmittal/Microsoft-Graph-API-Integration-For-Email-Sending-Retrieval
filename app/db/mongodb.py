@@ -18,11 +18,12 @@ def get_mongo_client():
     if _mongo_client is None:
         try:
             _mongo_client = MongoClient(settings.MONGODB_URI)
+            _mongo_client.server_info()  # Check if connection is successful
             logger.info(f"Connected to MongoDB at {settings.MONGODB_URI}")
+            return _mongo_client
         except Exception as e:
             logger.error(f"Failed to connect to MongoDB: {str(e)}")
             raise
-    
     return _mongo_client
 
 def get_database():

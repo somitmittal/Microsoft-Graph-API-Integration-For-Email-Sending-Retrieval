@@ -15,7 +15,6 @@ def init_mongo_connection():
     """
     try:
         mongo_client = get_mongo_client()
-        logger.info("MongoDB connection initialized")
         return mongo_client
     except Exception as e:
         logger.error(f"Failed to initialize MongoDB connection: {str(e)}")

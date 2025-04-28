@@ -116,6 +116,7 @@ class EmailService:
                 emails_data = response.json().get("value", [])
                 logger.info(f"Retrieved {len(emails_data)} emails from the past 24 hours")
                 self.email_repository.store_emails(emails_data)
+                return emails_data
             else:
                 logger.error(f"Failed to retrieve emails: {response.text}")
                 raise Exception(f"Failed to retrieve emails: {response.status_code} - {response.text}")

@@ -25,7 +25,7 @@ async def lifespan(app: FastAPI):
     close_mongo_connection()
 
 
-app = FastAPI(title="Microsoft Graph API Integration", lifespan=lifespan)
+app = FastAPI(title="Microsoft Graph API Integration", lifespan=lifespan, debug=True)
 
 # Include API routes
 app.include_router(router)
