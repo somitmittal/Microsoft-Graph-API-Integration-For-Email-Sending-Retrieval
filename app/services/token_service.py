@@ -19,7 +19,7 @@ class TokenCache:
     def is_token_valid(self) -> bool:
         return self.access_token is not None and self.expiry is not None and datetime.now() < self.expiry
 
-    def set_tokens(self, access_token: str, expires_in: int, refresh_token: Optional[str] = None):
+    def set_tokens(self, access_token: str, expires_in: int, refresh_token: str):
         self.access_token = access_token
         self.refresh_token = refresh_token
         self.expiry = datetime.now() + timedelta(seconds=expires_in)  # small buffer
