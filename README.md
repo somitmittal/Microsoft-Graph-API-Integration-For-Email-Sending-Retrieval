@@ -103,10 +103,14 @@ MAIL_SCOPES=User.Read Mail.Read Mail.Send
 
 1. Start the application:
    ```
-   uvicorn main:app --reload
+   uvicorn main:app --reload 
    ```
-2. The API will be available at `http://localhost:8000`
-3. The email retrieval scheduler will start automatically
+2. For building and running with Docker:
+   ```
+   docker-compose up --build
+   ```
+3. The API will be available at `http://localhost:8000`
+4. The email retrieval scheduler will start automatically
 
 ## API Endpoints
 
