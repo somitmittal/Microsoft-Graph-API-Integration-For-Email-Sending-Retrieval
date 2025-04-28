@@ -38,7 +38,7 @@ def get_email_collection():
     Get emails collection from MongoDB
     """
     db = get_database()
-    return db["emails"]
+    return db[settings.MONGODB_COLLECTION]
 
 def close_mongo_connection():
     """

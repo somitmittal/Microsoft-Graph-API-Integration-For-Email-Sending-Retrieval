@@ -16,8 +16,8 @@ from config import settings
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # --- Startup ---
-    start_scheduler()
     init_mongo_connection()
+    start_scheduler()
 
     yield
 
