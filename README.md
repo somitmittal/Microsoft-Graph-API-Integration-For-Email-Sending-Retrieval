@@ -16,9 +16,12 @@ This project implements a Python-based service that integrates with Microsoft Gr
 ├── README.md
 ├── .env.example
 ├── .gitignore
-├── requirements.txt
+├── requirements.txt         # Python dependencies
 ├── main.py                  # Main application entry point
-├── config.py               # Configuration and environment variables
+├── config.py                # Configuration and environment variables
+├── exceptions.py            # Exception Handler
+├── Dockerfile               # Dockerfile for containerization
+├── docker-compose.yml       # Docker Compose configuration
 └── app/
     ├── __init__.py
     ├── api/                # API endpoints
@@ -32,7 +35,7 @@ This project implements a Python-based service that integrates with Microsoft Gr
     │   └── email.py        # Email model definition
     ├── repositories/       # Repositories
     │   ├── __init__.py
-    │   └── email_repo.py   # Email Repository
+    │   └── email_repository.py   # Email Repository
     ├── schedulers/         # Schedulers
     │   ├── __init__.py
     │   └── scheduler.py    # Email retrieval scheduler
@@ -58,7 +61,7 @@ This project implements a Python-based service that integrates with Microsoft Gr
    - Go to [Azure Portal](https://portal.azure.com)
    - Navigate to "Microsoft Entra ID" > "App registrations" > "New registration"
    - Name your application
-   - Set the redirect URI to `http://localhost:5000/auth/callback`
+   - Set the redirect URI to `http://localhost:8000/auth/callback`
    - Grant the following API permissions:
      - Mail.Read
      - Mail.Send
@@ -87,12 +90,13 @@ This project implements a Python-based service that integrates with Microsoft Gr
 Create a `.env` file with the following variables:
 
 ```
-MONGODB_URI=mongodb://localhost:27017/email_service
+MONGODB_URI=mongodb://mongodb:27017
 CLIENT_ID=your_client_id
 CLIENT_SECRET=your_client_secret
 TENANT_ID=your_tenant_id
 USER_EMAIL=your_outlook_email
 SCHEDULE_INTERVAL=60  # Seconds between email retrievals
+MAIL_SCOPES=User.Read Mail.Read Mail.Send
 ```
 
 ## Running the Application
