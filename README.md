@@ -166,8 +166,11 @@ To test the application:
 - No credentials are committed to the repository
 - Token cache and refresh is handled automatically
 
-## Future Improvements
+## Testing
+To run tests:
+```
+PYTHONPATH=$pwd/pytest tests/unit/
+```
 
-- Add unit and integration tests
-- Add support for email filtering and search
-- Improve error handling and retry mechanisms
+## High Level Design
+![High Level Design](Check this file: high_level_diagram.txt)
