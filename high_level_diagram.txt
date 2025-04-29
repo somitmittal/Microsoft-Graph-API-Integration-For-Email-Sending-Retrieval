@@ -18,7 +18,7 @@
           │         AWS EC2 / ECS / EKS           │
           │ (Virtual Machine / Containers / K8s) │
           │    ┌────────────────────────────┐    │
-          │    │     FastAPI Application     │    │
+          │    │     FastAPI Application     │    │    --------->   Redis (For tokens)
           │    │ (Gunicorn + Uvicorn workers) │    │
           │    └────────────────────────────┘    │
           └─────────────────────────────────────┘
